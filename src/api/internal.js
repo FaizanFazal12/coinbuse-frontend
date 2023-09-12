@@ -39,8 +39,7 @@ export const signout = async (data) => {
   let response;
 
   try {
-    response = await api.post("/register", data)
-
+    response = await api.post("/register", data);
   }
   catch (err) {
     return err
@@ -130,10 +129,10 @@ api.interceptors.response.use(
       originalReq &&
       !originalReq._isRetry
     ) {
-      originalReq.isRetry = true;
+      originalReq._isRetry = true;
 
       try {
-        await axios.get(`${process.env.REACT_APP_INTERNAL_API_PATH}/refresh`, {
+        await axios.get(`${process.env.REACT_APP_INTERNAL_SERVER}/refresh`, {
           withCredentials: true,
         });
 
