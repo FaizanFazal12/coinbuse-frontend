@@ -129,7 +129,7 @@ api.interceptors.response.use(
       originalReq &&
       !originalReq._isRetry
     ) {
-      originalReq.isRetry = true;
+      originalReq._isRetry = true;
 
       try {
         await axios.get(`${process.env.REACT_APP_INTERNAL_SERVER}/refresh`, {
