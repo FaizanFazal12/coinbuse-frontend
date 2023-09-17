@@ -3,17 +3,22 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setUser } from "../store/userSlice"
 
-export default function UseAutoLogin() {
+function useAutoLogin() {
   const [loading, setLoading] = useState(true);
-  const dispatch = useDispatch()
-  useEffect(() => {
-    //IIFF
 
-    (async function autoLogin() {
-      const response = await axios.get(`${process.env.REACT_APP_INTERNAL_SERVER}/refresh`,{
-        withCredentials:true
-      });
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // IIFE
+    (async function autoLoginApiCall() {
       try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_INTERNAL_SERVER}/refresh`,
+          {
+            withCredentials: true,
+          }
+        );
+
         if (response.status === 200) {
           // 1. setUser
           const user = {
@@ -24,16 +29,16 @@ export default function UseAutoLogin() {
           };
 
           dispatch(setUser(user));
-
         }
       } catch (error) {
-
-      }
-      finally {
-        setLoading(false)
+        //
+      } finally {
+        setLoading(false);
       }
     })();
-  }, [])
+  }, []);
 
-  return loading
+  return loading;
 }
+
+export default useAutoLogin;
